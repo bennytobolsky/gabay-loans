@@ -608,10 +608,17 @@ async function send() {
       })
     });
 
-    if (!res.ok) throw new Error('API error');
     const data = await res.json();
+
+    if (!res.ok) {
+      console.error('API error response:', data);
+      throw new Error(data?.error?.message || data?.error || 'API error');
+    }
+
     hideTyping();
-    const reply = data.content?.[0]?.text || 'מצטער, לא הצלחתי לקבל תשובה.';
+    const textBlock = Array.isArray(data.content) ? data.content.find(b => b.type === 'text') : null;
+    if (!textBlock) console.error('Unexpected response shape:', data);
+    const reply = textBlock?.text || `מצטער, לא הצלחתי לקבל תשובה. (stop_reason: ${data.stop_reason || 'לא ידוע'})`;
     history.push({ role: 'assistant', content: reply });
     addMsg('bot', fmt(reply));
     document.getElementById('errorBanner').style.display = 'none';
@@ -619,7 +626,7 @@ async function send() {
   } catch (e) {
     hideTyping();
     document.getElementById('errorBanner').style.display = 'block';
-    addMsg('bot', '⚠️ שגיאת חיבור. המערכת צריכה לרוץ מתוך שרת מאושר עם API key תקין. פנה לאחראי הטכנולוגי להגדרה.');
+    addMsg('bot', `⚠️ שגיאת חיבור: ${e.message || 'לא ידוע'}. פנה לאחראי הטכנולוגי להגדרה.`);
   }
 
   btn.disabled = false;
