@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>גבאי | מרכז הלוואות חכם</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Gabay brand colors — navy + gold from their site */
+  --navy: #1B2A4A;
+  --navy-mid: #243660;
+  --navy-light: #EEF1F7;
+  --gold: #C8A84B;
+  --gold-light: #F5EDD4;
+  --gold-dark: #A8872F;
+  --white: #FFFFFF;
+  --bg: #F4F6FA;
+  --border: rgba(27,42,74,0.12);
+  --text: #1B2A4A;
+  --text-muted: #5A6882;
+  --text-light: #98A8C0;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── HEADER ─── */
+.header {
+  background: var(--navy);
+  padding: 0 2.5rem;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* SVG logo matching gabay-ins.co.il shield/star shape */
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.logo-text-wrap { display: flex; flex-direction: column; }
+.logo-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.logo-name span { color: var(--gold); }
+.logo-tagline {
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  margin-top: 3px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header-badge {
+  font-size: 12px;
+  background: rgba(200,168,75,0.15);
+  color: var(--gold);
+  border: 1px solid rgba(200,168,75,0.3);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.header-contact {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.header-contact:hover { color: var(--gold); }
+
+/* ─── HERO STRIP ─── */
+.hero-strip {
+  background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%);
+  padding: 18px 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid var(--gold);
+}
+.hero-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+}
+.hero-title span { color: var(--gold); }
+.hero-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 3px; }
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+}
+.stat { text-align: center; }
+.stat-num { font-size: 22px; font-weight: 700; color: var(--gold); line-height: 1; }
+.stat-lbl { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+/* ─── MAIN LAYOUT ─── */
+.main {
+  flex: 1;
+  display: flex;
+  max-width: 1060px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1.75rem 1.5rem;
+  gap: 1.5rem;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar { width: 230px; flex-shrink: 0; display: flex; flex-direction: column; gap: 1.25rem; }
+
+.sidebar-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.sidebar-card-header {
+  background: var(--navy);
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.sidebar-card-header .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.sidebar-card-body { padding: 8px; }
+
+.company-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: right;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  font-family: 'Heebo', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.company-btn:hover { background: var(--navy-light); color: var(--navy); }
+.company-btn.active {
+  background: var(--navy-light);
+  color: var(--navy);
+  font-weight: 600;
+}
+.company-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.company-btn.active .company-dot { background: var(--gold); }
+
+.quick-btn {
+  display: block; width: 100%;
+  text-align: right;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--white);
+  font-family: 'Heebo', sans-serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.quick-btn:hover {
+  border-color: var(--navy);
+  color: var(--navy);
+  background: var(--navy-light);
+}
+
+/* ─── CHAT ─── */
+.chat-wrap { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+.chat-box {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(27,42,74,0.07);
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 420px;
+  max-height: 540px;
+  scroll-behavior: smooth;
+}
+.messages::-webkit-scrollbar { width: 4px; }
+.messages::-webkit-scrollbar-thumb { background: #D0D8E8; border-radius: 4px; }
+
+.msg {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  animation: msgIn 0.22s ease;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.msg.user { flex-direction: row-reverse; }
+
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+}
+.bot .avatar {
+  background: var(--navy);
+  color: var(--gold);
+  font-size: 14px;
+}
+.user .avatar {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.bubble {
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 80%;
+}
+.bot .bubble {
+  background: var(--navy-light);
+  color: var(--text);
+  border-radius: 4px 16px 16px 16px;
+  border: 1px solid rgba(27,42,74,0.08);
+}
+.user .bubble {
+  background: var(--navy);
+  color: var(--white);
+  border-radius: 16px 4px 16px 16px;
+}
+.bubble strong { font-weight: 600; color: var(--navy); }
+.user .bubble strong { color: var(--gold); }
+.bubble .tag {
+  display: inline-block;
+  background: var(--gold-light);
+  color: var(--gold-dark);
+  padding: 2px 9px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  margin: 1px 2px;
+}
+
+.typing-dots {
+  display: flex; gap: 4px; align-items: center;
+  padding: 12px 16px;
+  background: var(--navy-light);
+  border-radius: 4px 16px 16px 16px;
+  border: 1px solid rgba(27,42,74,0.08);
+  width: fit-content;
+}
+.typing-dots span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 1.2s infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse {
+  0%,60%,100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-7px); opacity: 1; }
+}
+
+/* ─── INPUT ─── */
+.input-area {
+  padding: 14px 16px;
+  border-top: 2px solid var(--navy-light);
+  background: #FAFBFD;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.input-area textarea {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 14px;
+  resize: none;
+  min-height: 44px;
+  max-height: 120px;
+  background: var(--white);
+  color: var(--text);
+  direction: rtl;
+  transition: border-color 0.15s;
+  line-height: 1.5;
+}
+.input-area textarea:focus { outline: none; border-color: var(--navy); }
+.input-area textarea::placeholder { color: var(--text-light); }
+
+.send-btn {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.send-btn:hover { background: var(--gold); }
+.send-btn:hover svg { fill: var(--navy); }
+.send-btn:disabled { background: #D0D8E8; cursor: not-allowed; }
+.send-btn svg { width: 19px; height: 19px; fill: white; transition: fill 0.15s; }
+
+.chat-hint {
+  font-size: 11px;
+  color: var(--text-light);
+  text-align: center;
+  padding: 7px 16px;
+  border-top: 1px solid var(--border);
+  background: #FAFBFD;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--navy);
+  padding: 16px 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 3px solid var(--gold);
+}
+.footer-text { font-size: 12px; color: rgba(255,255,255,0.4); }
+.footer-link { color: var(--gold); text-decoration: none; font-size: 12px; }
+.footer-link:hover { text-decoration: underline; }
+
+/* ─── ERROR BANNER ─── */
+.error-banner {
+  display: none;
+  background: #FFF3CD;
+  border: 1px solid #FFEAA7;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #856404;
+  margin: 0 1.5rem 1rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .main { flex-direction: column; padding: 1rem; }
+  .sidebar { width: 100%; }
+  .hero-stats { display: none; }
+  .messages { min-height: 300px; max-height: 420px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">
+    <!-- Gabay shield logo recreation -->
+    <svg class="logo-mark" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 2L38 9V22C38 31.5 30.5 39.5 22 42C13.5 39.5 6 31.5 6 22V9L22 2Z" fill="#C8A84B" opacity="0.2"/>
+      <path d="M22 4L36 10.5V22C36 30.5 29.5 37.8 22 40.2C14.5 37.8 8 30.5 8 22V10.5L22 4Z" stroke="#C8A84B" stroke-width="1.5" fill="none"/>
+      <path d="M16 22L20 26L28 18" stroke="#C8A84B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="22" y="35" font-family="Heebo" font-size="7" font-weight="700" fill="#C8A84B" text-anchor="middle">גבאי</text>
+    </svg>
+    <div class="logo-text-wrap">
+      <div class="logo-name">גבאי <span>הסדרים פנסיוניים</span></div>
+      <div class="logo-tagline">מבטחים מעל ל-30 שנה · ביטוח · פיננסים</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <a href="tel:*2345" class="header-contact">📞 *2345</a>
+    <span class="header-badge">⚡ AI מרכז הלוואות</span>
+  </div>
+</header>
+
+<!-- HERO STRIP -->
+<div class="hero-strip">
+  <div>
+    <div class="hero-title">מרכז הלוואות <span>חכם</span></div>
+    <div class="hero-sub">שאל כל שאלה על הלוואות פנסיוניות — תשובה מיידית</div>
+  </div>
+
+</div>
+
+<div class="error-banner" id="errorBanner">
+  ⚠️ שגיאת חיבור — יש להפעיל את המערכת מתוך הסביבה המאושרת, או להגדיר API Key תקין.
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-header"><span class="dot"></span>סינון חברה</div>
+      <div class="sidebar-card-body">
+        <button class="company-btn active" data-company=""><span class="company-dot"></span>כל החברות</button>
+        <button class="company-btn" data-company="הפניקס"><span class="company-dot"></span>הפניקס</button>
+        <button class="company-btn" data-company="הראל"><span class="company-dot"></span>הראל</button>
+        <button class="company-btn" data-company="מור"><span class="company-dot"></span>מור</button>
+        <button class="company-btn" data-company="כלל"><span class="company-dot"></span>כלל</button>
+        <button class="company-btn" data-company="מנורה מבטחים"><span class="company-dot"></span>מנורה מבטחים</button>
+        <button class="company-btn" data-company="מיטב דש"><span class="company-dot"></span>מיטב דש</button>
+        <button class="company-btn" data-company="אלטשולר שחם"><span class="company-dot"></span>אלטשולר שחם</button>
+        <button class="company-btn" data-company="ילין לפידות"><span class="company-dot"></span>ילין לפידות</button>
+        <button class="company-btn" data-company="אנליסט"><span class="company-dot"></span>אנליסט</button>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-header"><span class="dot"></span>שאלות נפוצות</div>
+      <div class="sidebar-card-body">
+        <button class="quick-btn" onclick="ask(this.textContent)">כמה ריבית מקבלים בקרן השתלמות בהראל?</button>
+        <button class="quick-btn" onclick="ask(this.textContent)">יש לי 200,000 ₪ בפנסיה בהפניקס — כמה אוכל לקחת?</button>
+        <button class="quick-btn" onclick="ask(this.textContent)">מה ההבדל בין שפיצר, גרייס ובלון?</button>
+        <button class="quick-btn" onclick="ask(this.textContent)">איזו חברה נותנת הלוואה הכי גבוהה מקרן השתלמות?</button>
+        <button class="quick-btn" onclick="ask(this.textContent)">מה ההלוואה המקסימלית במסלול מנייתי?</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHAT -->
+  <div class="chat-wrap">
+    <div class="chat-box">
+
+      <div class="messages" id="messages">
+        <div class="msg bot">
+          <div class="avatar">ג</div>
+          <div class="bubble">
+            שלום וברוכים הבאים למרכז ההלוואות החכם של <strong>גבאי הסדרים פנסיוניים</strong> 👋<br><br>
+            אני מכיר את כל מסלולי ההלוואה של החברות המובילות ויכול לענות על כל שאלה — ריביות, אחוזי הלוואה, חישוב סכומים, תקופות, השוואות בין חברות ועוד.<br><br>
+            לדוגמה: <em>"יש לי קרן השתלמות של 300,000 ₪ בהפניקס במסלול לא מנייתי — כמה הלוואה אוכל לקבל ובאיזה ריבית?"</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <button class="send-btn" id="sendBtn" onclick="send()" title="שלח">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+        <textarea id="input"
+          placeholder="שאל שאלה על הלוואות פנסיוניות..."
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}"
+          oninput="resize(this)" rows="1"></textarea>
+      </div>
+      <div class="chat-hint">Enter לשליחה &nbsp;·&nbsp; Shift+Enter לשורה חדשה &nbsp;·&nbsp; ריבית פריים נוכחית: 5.5%</div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-text">© גבאי הסדרים פנסיוניים, ביטוח ופיננסים | מידע לצורך עזר בלבד, אינו מהווה ייעוץ פנסיוני</span>
+  <a href="https://www.gabay-ins.co.il" target="_blank" class="footer-link">gabay-ins.co.il ←</a>
+</footer>
+
+<script>
+const PRIME = 5.5;
+let company = '';
+let history = [];
+
+const DATA = [{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים ועוקבי מדדים","שיעור הלוואה מקסימלי (%)":0.75,"ריבית":"p - 0.5","סוגי החזר":"גרייס / שפיצר","תקופה":1,"מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים ועוקבי מדדים","שיעור הלוואה מקסימלי (%)":0.75,"ריבית":"p","סוגי החזר":"גרייס / שפיצר","תקופה":3,"מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים ועוקבי מדדים","שיעור הלוואה מקסימלי (%)":0.75,"ריבית":"p + 0.5","סוגי החזר":"שפיצר","תקופה":"5-7","מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"מנייתים ועוקבי מדדים","שיעור הלוואה מקסימלי (%)":0.45,"ריבית":"p - 0.5","סוגי החזר":"גרייס / שפיצר","תקופה":1,"מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"מנייתים ועוקבי מדדים","שיעור הלוואה מקסימלי (%)":0.45,"ריבית":"p","סוגי החזר":"גרייס / שפיצר","תקופה":3,"מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קופת גמל","סטטוס":"לא נזיל","מסלול":"כל המסלולים","שיעור הלוואה מקסימלי (%)":0.3,"ריבית":"p + 1","סוגי החזר":"גרייס / שפיצר","תקופה":1,"מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים ועוקבי מדדים","שיעור הלוואה מקסימלי (%)":0.75,"ריבית":"p - 0.5","סוגי החזר":"גרייס / שפיצר","תקופה":1,"מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים ועוקבי מדדים","שיעור הלוואה מקסימלי (%)":0.75,"ריבית":"p","סוגי החזר":"גרייס / שפיצר","תקופה":3,"מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"מנייתים ועוקבי מדדים","שיעור הלוואה מקסימלי (%)":0.45,"ריבית":"p - 0.5","סוגי החזר":"גרייס / שפיצר","תקופה":1,"מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"קרן פנסיה","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.7,"ריבית":"מדד + 3%","סוגי החזר":"גרייס / שפיצר","תקופה":"1-7","מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"ביטוח מנהלים","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.7,"ריבית":"מדד + 3%","סוגי החזר":"גרייס / שפיצר","תקופה":"1-7","מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"הפניקס","סוג מוצר":"ביטוח מנהלים מבטיח תשואה","סטטוס":"נזיל","מסלול":"כל המסלולים","שיעור הלוואה מקסימלי (%)":0.7,"ריבית":"מדד + 6%","סוגי החזר":"גרייס / שפיצר","תקופה":"1-7","מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מור","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"p - 0.75","סוגי החזר":"גרייס / שפיצר","תקופה":"0.5-4.5","מינימום":10000,"מקסימום":1000000},{"שם הגוף המלווה":"מור","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"p - 0.25","סוגי החזר":"גרייס / שפיצר","תקופה":"5-7","מינימום":10000,"מקסימום":1000000},{"שם הגוף המלווה":"מור","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"p - 0.75","סוגי החזר":"גרייס / שפיצר","תקופה":"0.5-4.5","מינימום":10000,"מקסימום":1000000},{"שם הגוף המלווה":"מור","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"מנייתים","שיעור הלוואה מקסימלי (%)":0.6,"ריבית":"p - 0.75","סוגי החזר":"גרייס / שפיצר","תקופה":"0.5-4.5","מינימום":10000,"מקסימום":1000000},{"שם הגוף המלווה":"מור","סוג מוצר":"קרן השתלמות","סטטוס":"לא נזיל","מסלול":"כל המסלולים","שיעור הלוואה מקסימלי (%)":0.5,"ריבית":"p - 0.75","סוגי החזר":"גרייס / שפיצר","תקופה":"0.5-4.5","מינימום":10000,"מקסימום":1000000},{"שם הגוף המלווה":"אנליסט","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.75,"ריבית":"אין נתון","סוגי החזר":"שפיצר / בלון","תקופה":"1-7","מינימום":20000,"מקסימום":1000000},{"שם הגוף המלווה":"אנליסט","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"מנייתים","שיעור הלוואה מקסימלי (%)":0.5,"ריבית":"אין נתון","סוגי החזר":"שפיצר / בלון","תקופה":"1-7","מינימום":20000,"מקסימום":1000000},{"שם הגוף המלווה":"אנליסט","סוג מוצר":"קרן השתלמות","סטטוס":"לא נזיל","מסלול":"כל המסלולים","שיעור הלוואה מקסימלי (%)":0.5,"ריבית":"אין נתון","סוגי החזר":"שפיצר / בלון","תקופה":"1-7","מינימום":20000,"מקסימום":1000000},{"שם הגוף המלווה":"אנליסט","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.75,"ריבית":"אין נתון","סוגי החזר":"שפיצר / בלון","תקופה":"1-7","מינימום":20000,"מקסימום":1000000},{"שם הגוף המלווה":"ילין לפידות","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.61,"ריבית":"אין נתון","סוגי החזר":"שפיצר","תקופה":"1-7","מינימום":50000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"ילין לפידות","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.61,"ריבית":"אין נתון","סוגי החזר":"שפיצר","תקופה":"1-7","מינימום":50000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"ילין לפידות","סוג מוצר":"קרן השתלמות","סטטוס":"לא נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.42,"ריבית":"אין נתון","סוגי החזר":"שפיצר","תקופה":"1-7","מינימום":50000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"אלטשולר שחם","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד עוקבי מדדים, הלכה וכספי","שיעור הלוואה מקסימלי (%)":0.78,"ריבית":"p - 0.5","סוגי החזר":"גרייס / בלון / שפיצר","תקופה":"1-3","מינימום":10000,"מקסימום":500000},{"שם הגוף המלווה":"אלטשולר שחם","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד עוקבי מדדים, הלכה וכספי","שיעור הלוואה מקסימלי (%)":0.78,"ריבית":"p - 0.5","סוגי החזר":"גרייס / בלון / שפיצר","תקופה":"1-3","מינימום":10000,"מקסימום":500000},{"שם הגוף המלווה":"הראל","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"P - 0.5 או מדד + 3%","סוגי החזר":"בלון / שפיצר","תקופה":"1-2","מינימום":20000,"מקסימום":1500000},{"שם הגוף המלווה":"הראל","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"P - 0.2 או מדד + 3%","סוגי החזר":"בלון / שפיצר","תקופה":"3-7","מינימום":20000,"מקסימום":1500000},{"שם הגוף המלווה":"הראל","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"מנייתים","שיעור הלוואה מקסימלי (%)":0.5,"ריבית":"P - 0.5 או מדד + 3%","סוגי החזר":"בלון / שפיצר","תקופה":"1-2","מינימום":20000,"מקסימום":1500000},{"שם הגוף המלווה":"הראל","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"P - 0.5 או מדד + 3%","סוגי החזר":"שפיצר","תקופה":"1-2","מינימום":20000,"מקסימום":1500000},{"שם הגוף המלווה":"הראל","סוג מוצר":"קופת גמל","סטטוס":"לא נזיל","מסלול":"כל המסלולים","שיעור הלוואה מקסימלי (%)":0.3,"ריבית":"P - 0.5 או מדד + 3%","סוגי החזר":"שפיצר","תקופה":"1-2","מינימום":20000,"מקסימום":1500000},{"שם הגוף המלווה":"הראל","סוג מוצר":"פנסיה","סטטוס":"נזיל/לא נזיל","מסלול":"מסלולים נבחרים","שיעור הלוואה מקסימלי (%)":0.3,"ריבית":"P + 0.5 או מדד + 3%","סוגי החזר":"שפיצר","תקופה":"1-7","מינימום":20000,"מקסימום":"אין מגבלה"},{"שם הגוף המלווה":"כלל","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"p - 0.5 או מדד + 2.75% או 5% קבועה","סוגי החזר":"שפיצר","תקופה":"0.5-7","מינימום":10000,"מקסימום":1500000},{"שם הגוף המלווה":"כלל","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"מנייתים","שיעור הלוואה מקסימלי (%)":0.6,"ריבית":"p - 0.5 או מדד + 2.75% או 5% קבועה","סוגי החזר":"שפיצר","תקופה":"0.5-7","מינימום":10000,"מקסימום":1500000},{"שם הגוף המלווה":"כלל","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"p - 0.5 או מדד + 2.75% או 5% קבועה","סוגי החזר":"שפיצר","תקופה":"0.5-7","מינימום":10000,"מקסימום":1500000},{"שם הגוף המלווה":"כלל","סוג מוצר":"קרן פנסיה","סטטוס":"לא נזיל","מסלול":"כל המסלולים","שיעור הלוואה מקסימלי (%)":0.3,"ריבית":"מדד + 3.25% או 5.5% קבועה","סוגי החזר":"שפיצר","תקופה":"0.5-7","מינימום":10000,"מקסימום":1500000},{"שם הגוף המלווה":"מנורה מבטחים","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.78,"ריבית":"p - 0.5","סוגי החזר":"שפיצר / בלון","תקופה":"1-7","מינימום":10000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מנורה מבטחים","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"מנייתים","שיעור הלוואה מקסימלי (%)":0.28,"ריבית":"p","סוגי החזר":"גרייס","תקופה":"1-7","מינימום":10000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מנורה מבטחים","סוג מוצר":"קרן השתלמות","סטטוס":"לא נזיל","מסלול":"כל המסלולים","שיעור הלוואה מקסימלי (%)":0.48,"ריבית":"p - 0.5","סוגי החזר":"שפיצר / בלון","תקופה":"1-7","מינימום":10000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מנורה מבטחים","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.78,"ריבית":"p - 0.5","סוגי החזר":"שפיצר / בלון","תקופה":"1-7","מינימום":10000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מנורה מבטחים","סוג מוצר":"קרן פנסיה","סטטוס":"נזיל/לא נזיל","מסלול":"מקיפה בלבד","שיעור הלוואה מקסימלי (%)":0.28,"ריבית":"p + 0.5 או מדד + 3%","סוגי החזר":"שפיצר","תקופה":"1-7","מינימום":20000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מיטב דש","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"p - 0.5","סוגי החזר":"שפיצר / גרייס","תקופה":5,"מינימום":40000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מיטב דש","סוג מוצר":"קרן השתלמות","סטטוס":"נזיל","מסלול":"מנייתים","שיעור הלוואה מקסימלי (%)":0.5,"ריבית":"p - 0.5","סוגי החזר":"שפיצר / גרייס","תקופה":5,"מינימום":40000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מיטב דש","סוג מוצר":"קופת גמל","סטטוס":"נזיל","מסלול":"כל המסלולים מלבד מנייתים","שיעור הלוואה מקסימלי (%)":0.8,"ריבית":"p - 0.5","סוגי החזר":"שפיצר / גרייס","תקופה":5,"מינימום":40000,"מקסימום":"אין הגבלה"},{"שם הגוף המלווה":"מיטב דש","סוג מוצר":"קרן פנסיה","סטטוס":"לא נזיל","מסלול":"כל המסלולים","שיעור הלוואה מקסימלי (%)":0.3,"ריבית":"P + 0.6","סוגי החזר":"שפיצר","תקופה":5,"מינימום":40000,"מקסימום":"אין הגבלה"}];
+
+function systemPrompt() {
+  const cf = company ? `\n\nסינון פעיל: הצג רק נתונים של "${company}".` : '';
+  return `אתה עוזר AI מקצועי של חברת גבאי הסדרים פנסיוניים, ביטוח ופיננסים.
+אתה עונה בעברית, בצורה ברורה, מקצועית וידידותית.
+
+ריבית פריים (P) נוכחית: ${PRIME}%
+
+נתוני הלוואות (נציג מרכזי):
+${JSON.stringify(DATA)}
+
+כללים:
+- כשריבית = "p ± X": חשב ${PRIME} ± X וציין את האחוז הסופי
+- כשמשתמש נותן סכום חיסכון: חשב הלוואה = סכום × אחוז מקסימלי
+- אם שואלים על תקופה שלא קיימת (8 שנים) — ציין שהמקסימום הוא X שנים
+- ענה גם על שאלות כלליות על הלוואות (שפיצר/גרייס/בלון, ריבית פריים וכו')
+- אם חסר מידע כמו יתרת חיסכון — בקש אותו
+- שמור תשובות קצרות ומדויקות, עם נקודות אם יש מספר פריטים${cf}`;
+}
+
+function resize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function scroll() {
+  const m = document.getElementById('messages');
+  m.scrollTop = m.scrollHeight;
+}
+
+function fmt(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>')
+    .replace(/(\d+\.?\d*%)/g, '<span class="tag">$1</span>')
+    .replace(/([\d,]+ ?₪)/g, '<span class="tag">$1</span>');
+}
+
+function addMsg(role, html) {
+  const m = document.getElementById('messages');
+  const d = document.createElement('div');
+  d.className = `msg ${role}`;
+  d.innerHTML = `<div class="avatar">${role === 'bot' ? 'ג' : 'י'}</div><div class="bubble">${html}</div>`;
+  m.appendChild(d);
+  scroll();
+}
+
+function showTyping() {
+  const m = document.getElementById('messages');
+  const d = document.createElement('div');
+  d.className = 'msg bot'; d.id = 'typing';
+  d.innerHTML = `<div class="avatar">ג</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  m.appendChild(d);
+  scroll();
+}
+
+function hideTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+async function send() {
+  const inp = document.getElementById('input');
+  const btn = document.getElementById('sendBtn');
+  const text = inp.value.trim();
+  if (!text) return;
+
+  inp.value = ''; inp.style.height = 'auto'; btn.disabled = true;
+  addMsg('user', text);
+  history.push({ role: 'user', content: text });
+  showTyping();
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: systemPrompt(),
+        messages: history
+      })
+    });
+
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    hideTyping();
+    const reply = data.content?.[0]?.text || 'מצטער, לא הצלחתי לקבל תשובה.';
+    history.push({ role: 'assistant', content: reply });
+    addMsg('bot', fmt(reply));
+    document.getElementById('errorBanner').style.display = 'none';
+
+  } catch (e) {
+    hideTyping();
+    document.getElementById('errorBanner').style.display = 'block';
+    addMsg('bot', '⚠️ שגיאת חיבור. המערכת צריכה לרוץ מתוך שרת מאושר עם API key תקין. פנה לאחראי הטכנולוגי להגדרה.');
+  }
+
+  btn.disabled = false;
+  inp.focus();
+}
+
+function ask(q) {
+  document.getElementById('input').value = q;
+  send();
+}
+
+document.querySelectorAll('.company-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.company-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    company = btn.dataset.company;
+    const msg = company
+      ? `✔ סוננו לחברת <strong>${company}</strong>. כל שאלה מעכשיו תתמקד בחברה זו.`
+      : 'חזרנו לתצוגת כל החברות.';
+    addMsg('bot', msg);
+  });
+});
+</script>
+</body>
+</html>
