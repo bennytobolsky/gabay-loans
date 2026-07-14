@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
   }
 
   const { system, messages } = req.body || {};
-  if (!Array.isArray(messages) || messages.length === 0) {
+  if (typeof system !== 'string' || !Array.isArray(messages) || messages.length === 0) {
     res.status(400).json({ error: 'Invalid request body' });
     return;
   }
@@ -27,7 +27,9 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         model: 'claude-sonnet-5',
         max_tokens: 4096,
-        system,
+        system: [
+          { type: 'text', text: system, cache_control: { type: 'ephemeral' } }
+        ],
         messages
       })
     });
